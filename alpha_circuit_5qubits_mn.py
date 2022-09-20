@@ -54,11 +54,11 @@ if __name__ == '__main__':
     # results of measuring 4 qubit and 5 qubits
     nq = 5  # number of qubits
     nc = 5  # number of classical bits {set nc = 4 or nc = 5}
-    mq = [0,1,2,3] # {set mq = [0,1,2,3] for nc = 4 or mq = [0,1,2,3,4] for nc = 5}
-    mc = [0,1,2,3] # {set mc = [0,1,2,3] for nc = 4 or mc = [0,1,2,3,4] for nc = 5}
+    mq = [0,1,2,3,4] # {set mq = [0,1,2,3] for nc = 4 or mq = [0,1,2,3,4] for nc = 5}
+    mc = [0,1,2,3,4] # {set mc = [0,1,2,3] for nc = 4 or mc = [0,1,2,3,4] for nc = 5}
     initial_state = [0,0,0,0,0]
     #
-    theta_max_range = np.arange(1, 9, 0.1)
+    theta_max_range = np.arange(0.1, 9, 0.1)
     n_theta_inter = 50
     Is_save = True
     Is_plot = True

@@ -111,20 +111,21 @@ def measure_3qubit(t_series, hx_series, Nbody, bound_cond,v0, Is_save,savepath):
         counts_sum['011'] = prop011; counts_sum['111'] = prop111
         if Is_save is True:
             mkdir(savepath)
+            print('hx',hx)
             saveexp = 'H_heisenberg_hx(%g,%g,%g)_Nq%d_Nc%d_t%g' % (
                 hx[0], hx[-1], len(hx), Nbody, 3, t[it1]) + 'exact'
             save(savepath, saveexp + '.pr', (counts_sum, hx), ('counts', 'hx'))
     return
 #
-
+#
 if __name__ == '__main__':
     Nbody = 5
     initial_state = [0,0,0,0,0]
     bound_cond = 'open' # boundary condition
     v0 = get_initial_vector(initial_state, n=Nbody)
     #
-    t = np.arange(1, 10, 1)  # set time series
-    hx = np.linspace(0, 1, 100) # set hx series
+    t = np.arange(8, 8.2, 0.1)  # set time series
+    hx = np.arange(0,1,0.02)
     #
     Is_save = True
     savepath = '.\\data\\H_heisenberg_hx\\exact_evolution\\Nbody%g'%3

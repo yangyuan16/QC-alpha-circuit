@@ -75,14 +75,14 @@ def measure_nqubit(t_series, hx_series, Nbody, bound_cond,v0, N_m,Is_save,savepa
     return
 #=====================================================
 if __name__ == '__main__':
-    Nbody = 5
-    N_m = 5  # number of measuring qubits
-    initial_state = [0,0,0,0,0]
+    Nbody = 4  #
+    N_m = 4  # number of measuring qubits
+    initial_state = [0,0,0,0]
     bound_cond = 'open' # boundary condition
     v0 = get_initial_vector(initial_state, n=Nbody)
     #
-    t = np.arange(1, 10, 1)  # set time series
-    hx = np.linspace(0, 1, 100) # set hx series
+    t = np.arange(0, 10, 0.1)  # set time series
+    hx = np.arange(0,1,0.1)
     #
     Is_save = True
     Is_plot = True

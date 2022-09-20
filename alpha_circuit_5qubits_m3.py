@@ -100,7 +100,7 @@ if __name__ == '__main__':
     mc = [0,1,2,]
     initial_state = [0,0,0,0,0]
     #
-    theta_max_range = np.arange(1, 9, 0.1)
+    theta_max_range = np.arange(0.1, 9, 0.1)
     n_theta_inter = 50
     Is_save = True
     savepath = '.\\data\\H_heisenberg_hx\\advance_qasm_simulator\\Nbody%g\\'%nc

@@ -145,8 +145,8 @@ def measure_3qubit(t_series, hx_series, Nbody, dt, U_series,shots,Is_plot_circui
 #
 if __name__ == '__main__':
     dt = 0.1
-    hx_series = np.arange(0, 1, 0.1)
-    t_series = np.arange(1, 2, 1)
+    hx_series = np.arange(0, 1, 0.02)
+    t_series = np.arange(8, 8.2, 0.1)
     Hxx, Hyy, Hzz, Hmx, Hmz = libH.heisenberg_2body()
     #
     Nbody = 3
