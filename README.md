@@ -96,3 +96,6 @@ evolution operator slice corresponding to different magnetic fields is obtained
 > * $ python dataplot_sigmaz_string.py
 >> * plot fig.4 in the article
 >> * figures output along folder: './Figs/'
+
+##### Contact:
+> * messiyuan16@gmail.com
