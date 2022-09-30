@@ -1,5 +1,6 @@
-# compare the results: trotter numerical simulator, trotter circuit, alpha-circuit, exact evolution
-#
+# (1) situation of large hx = 5
+# (1) compare the results: alpha-circuit, exact evolution
+# (2) plot the results
 #============================================
 import matplotlib.pyplot as plt
 import matplotlib.pylab as pylab
@@ -39,7 +40,7 @@ ax1_ = ax1.twiny()  # 共享 y 轴
 #====================================
 # 获取数据
 Nbody = 3
-hx_fix = 0.5
+hx_fix = 5
 t1 = 0; t2 = 7.9;  nt = 80
 # data from exact evolution
 loadpath1 = '.\\data\\H_heisenberg_hx\\exact_evolution_fix_hx\\Nbody%g\\'%Nbody
@@ -49,41 +50,34 @@ data_exact = bf.load_pr(loadpath1 + loadexp1)
 sigmaz_exact = data_exact['sigma_z']
 t_range_exact = data_exact['t_range']
 # data from trotter evolution
-dt = 0.1; shots = 1024
-loadpath2 = '.\\data\\H_heisenberg_hx\\trotter_qasm_simulator_fix_hx\\Nbody%g\\'%Nbody
-loadexp2 = 'H_heisenberg_sigmaz_t(%g,%g,%g)_Nq%d_Nc%d_hx%g_dt%g_shots%g' % (t1,t2,nt,Nbody,Nbody,hx_fix,dt,shots) + 'trotter' + '.pr'
-print(loadpath2 + loadexp2)
-data_trotter = bf.load_pr(loadpath2 + loadexp2)
-sigmaz_trotter = data_trotter['sigma_z']
-t_range_trotter = data_trotter['t_range']
+#dt = 0.1; shots = 1024
+#loadpath2 = '.\\data\\H_heisenberg_hx\\trotter_qasm_simulator_fix_hx\\Nbody%g\\'%Nbody
+#loadexp2 = 'H_heisenberg_sigmaz_t(%g,%g,%g)_Nq%d_Nc%d_hx%g_dt%g_shots%g' % (t1,t2,nt,Nbody,Nbody,hx_fix,dt,shots) + 'trotter' + '.pr'
+#print(loadpath2 + loadexp2)
+#data_trotter = bf.load_pr(loadpath2 + loadexp2)
+#sigmaz_trotter = data_trotter['sigma_z']
+#t_range_trotter = data_trotter['t_range']
 # data from advance circuit
-theta1 = 0.1; theta2 = 7.9; ntheta = 79
+theta1 = 1; theta2 = 39.8; ntheta = 195; shots = 1024
 loadpath3 = '.\\data\\H_heisenberg_hx\\advance_qasm_simulator_fix_hx\\Nbody%g\\'%Nbody
 loadexp3 = 'H_heisenberg_sigmaz_thetamax(%g,%g,%g)_Nq%d_Nc%d_hx%g_shots%g' % (theta1,theta2,ntheta,Nbody,Nbody,hx_fix,shots) + 'advance' + '.pr'
 print(loadpath3 + loadexp3)
 data_advance =  bf.load_pr(loadpath3 + loadexp3)
 sigmaz_advance = data_advance['sigma_z']
-theta_advance = data_advance['theta_max_range'] * hx_fix
+theta_advance = data_advance['theta_max_range']
 #
+
+L1,=ax1.plot(t_range_exact, sigmaz_exact, label=r'ED', ls='-', lw=2, color='red',
+             marker='o', alpha=1, markersize=6, markeredgewidth=1.5, markeredgecolor='red', markerfacecolor='w')
+
 L3_,=ax1_.plot(theta_advance[::4], sigmaz_advance[::4], label=r'$\alpha$-circuit', ls='--', lw=3, color='blue',
              marker='o', alpha=1, markersize=10, markeredgewidth=1.5, markeredgecolor='blue', markerfacecolor='none')
 
-L1,=ax1.plot(t_range_exact, sigmaz_exact, label=r'ED', ls='-', lw=5, color='red',
-             marker='o', alpha=1, markersize=0, markeredgewidth=1.5, markeredgecolor='red', markerfacecolor='w')
 
-L2,=ax1.plot(t_range_trotter[::4], sigmaz_trotter[::4], label=r'Trotter Circuit', ls='--', lw=3, color='orange',
-             marker='o', alpha=1, markersize=10, markeredgewidth=1.5, markeredgecolor='orange', markerfacecolor='w')
 
-loadpath4 = '.\\data\\H_heisenberg_hx\\trotter_numerical\\Nbody5\\'
-loadexp4 = 'Trotter_numerical_sigmaz_t(0,7.8,40)_Nbody5_hx0.5.pr'
-print(loadpath4 + loadexp4)
-data_trotter_numerical = bf.load_pr(loadpath4 + loadexp4)
-sigmaz_trotter_numerical = data_trotter_numerical['sigma_z']
-t_range_trotter_numerical = data_trotter_numerical['t_range']
-LL,=ax1.plot(t_range_trotter_numerical, sigmaz_trotter_numerical,
-             label=r'Trotter Simulator', ls='-', lw=2.5, color='green',
-             marker='s', alpha=1, markersize=10, markeredgewidth=1.5,
-             markeredgecolor='green', markerfacecolor='w')
+#L2,=ax1.plot(t_range_trotter[::4], sigmaz_trotter[::4], label=r'Trotter Circuit', ls='--', lw=3, color='orange',
+#             marker='o', alpha=1, markersize=10, markeredgewidth=1.5, markeredgecolor='orange', markerfacecolor='w')
+
 
 # 画 3 根虚线
 L3,=ax1.plot([0,8], [0.5,0.5], label=r'Trotter', ls='--', lw=1, color='grey',
@@ -97,7 +91,7 @@ L5,=ax1.plot([0,8], [-0.5,-0.5], label=r'Trotter', ls='--', lw=1, color='grey',
 ####图例设置
 #label = ["Mg", "Mo", "Me","Ms"]
 legfont = {'family' : 'Times New Roman','weight' : 'normal','size': 16, }###图例字体的大小###ncol 设置列的数量，使显示扁平化，当要表示的线段特别多的时候会有用
-legend1=plt.legend(handles=[L1,L2,L3_,LL], loc = 4, bbox_to_anchor=(0.88, 0.58),ncol = 1,prop=legfont,markerscale=1,fancybox=None,shadow=None,frameon=False)
+legend1=plt.legend(handles=[L1,L3_,], loc = 4, bbox_to_anchor=(0.94, 0.83),ncol = 1,prop=legfont,markerscale=1,fancybox=None,shadow=None,frameon=False)
 #legend2=plt.legend(handles=[Le, Ls_a, Ls_b], loc = 4, bbox_to_anchor=(0.85, -0.05),ncol = 1,prop=legfont,markerscale=1,fancybox=None,shadow=None,frameon=False)
 #plt.gca().add_artist(legend1)#####把图例legend1重新加载回来
 ## bty 图例框是否画出，o为画出，默认为n不画出
@@ -116,22 +110,22 @@ ax1.tick_params(labelsize = 15) # 设置坐标刻度对应数字的大小
 ax1_.tick_params(labelsize = 15)
 #plt.xlim(0,8)
 plt.ylim(-1,1)
-ax1.set_xlim([0,8])
-ax1.set_xticks([0,2,4,6,8])
+ax1.set_xlim([0,4])
+ax1.set_xticks([0,1,2,3,4])
 ax1.set_yticks([-1,-0.5,0,0.5,1])
 
-ax1_.set_xlim([0,4])
-ax1_.set_xticks([0,1,2,3,4])
-
+ax1_.set_xlim([0,20])
+#ax1_.set_xticks([0,10,20,30,40])
+ax1_.set_xticks([0,5,10,15,20])
 #==============================================================
-ax1.text(0.3,-0.87, r'$\mathrm{(a)}$', fontsize=18)
+#ax1.text(0.3,-0.87, r'$\mathrm{(a)}$', fontsize=18)
 #ax1.text(0.1,0.9, r'$\mathrm{perplexity = 18}$', fontsize=12)
 # ax1.text(0.1,0.8, r'$\mathrm{n_{iter} = 5000}$', fontsize=12)
-ax1.text(4,0.1, r'$h_x = 0.5$', fontsize = 16, color='black')
+ax1.text(1.5,0.84, r'$h_x = 5$', fontsize = 16, color='black')
 #ax1.text(5.5,0.53, r'Heisenberg', fontsize = 15, color='black')
 #ax1.text(5.5,0.5, r'S=1', fontsize = 15, color='black')
 #ax1.text(5.5,0.53, r'uniform', fontsize = 15, color='black')
-ax1.text(8.1,-0.13, r'$\sigma^z(\theta)$', fontsize = 16, color='black', rotation = 90)
+ax1.text(4.1,-0.13, r'$\sigma^z(\theta)$', fontsize = 16, color='black', rotation = 90)
 #=============================================================
 # 坐标轴设置第一层
 labels = ax1.get_xticklabels() + ax1.get_yticklabels()
@@ -190,6 +184,6 @@ fig.tight_layout()  #自动调整subplot间的参数 !!! feichangzhongyao
 #======================================================================
 ISsave = True
 if ISsave:
-    fig.savefig(r'.\Figs\fig_compare.eps',dpi=300, format='eps')
+    fig.savefig(r'.\Figs\fig_large_hx.eps',dpi=300, format='eps')
 #===================================================
 plt.show()
