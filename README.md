@@ -99,3 +99,8 @@ evolution operator slice corresponding to different magnetic fields is obtained
 
 ##### Contact:
 > * messiyuan16@gmail.com
+
+##### Tips: 
+> * If you use this codes, plese cite our paper [Towards simulating time evolution of specific quantum many-body system by lower counts of quantum gates](https://iopscience.iop.org/article/10.1209/0295-5075/acad25/meta) .
+
+
